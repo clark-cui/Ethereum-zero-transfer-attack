@@ -16,4 +16,9 @@ Hackers monitor the wallet activities of large holders (victims) on the blockcha
 
 - `npm i`
 - Add secret.mjs, then add your own wallet private key(your wallet need some ETH as gas) and alchemy api key.
+- Change the VICTIM_ADDRESS you want to attack in utils.mjs.
 - use `npm run hack` or use `node ./src/index.mjs` to attack victim.
+
+
+### tips
+Of course you can change START_POSITION and END_POSITION to improve attack success rate.If transaction failed, you should improve GAS_VALUE in utils.mjs.
