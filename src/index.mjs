@@ -1,19 +1,30 @@
 import { watchVictim } from "./utils.mjs";
 
-// 使用动态导入来导入 fs 模块
 import("fs")
   .then((fs) => {
-    // 创建一个可写的流
     let logStream = fs.createWriteStream("output.log", { flags: "a" });
 
-    // 重定向console.log的输出
+    const originalLog = console.log;
+    const originalTime = console.time;
+    const originalTimeEnd = console.timeEnd;
+
     console.log = function (message) {
       logStream.write(message + "\n");
-      process.stdout.write(message + "\n");
+      originalLog.apply(console, arguments);
+    };
+
+    console.time = function (label) {
+      logStream.write(`Timer ${label} started\n`);
+      originalTime.apply(console, arguments);
+    };
+
+    console.timeEnd = function (label) {
+      logStream.write(`Timer ${label} ended\n`);
+      originalTimeEnd.apply(console, arguments);
     };
   })
   .catch((error) => {
-    console.error("无法导入 fs 模块:", error);
+    console.error("can not import fs:", error);
   });
 
 watchVictim();

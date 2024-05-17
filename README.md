@@ -14,6 +14,6 @@ Hackers monitor the wallet activities of large holders (victims) on the blockcha
 
 ### use
 
-1.  `npm i`
-2.  Add secret.mjs, then add your own wallet private key(your wallet need some ETH as gas) and alchemy api key.
-3.  use `npm run hack` or use `node ./src/index.mjs` to attack victim.
+- `npm i`
+- Add secret.mjs, then add your own wallet private key(your wallet need some ETH as gas) and alchemy api key.
+- use `npm run hack` or use `node ./src/index.mjs` to attack victim.
