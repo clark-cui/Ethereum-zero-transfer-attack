@@ -10,12 +10,12 @@ import { mainnet } from "viem/chains";
 import { HACK_PRIVATE_KEY, ALCHEMY_API_KEY, ALCHEMY_RPC } from "./secret.mjs";
 import { Network, Alchemy, AlchemySubscription } from "alchemy-sdk";
 
-const VICTIM_ADDRESS = "0x23335657622dcc27bb1914e51cdc30871d6d04d3";
+const VICTIM_ADDRESS = "0x468dbac067fc4071d1c7f68e7872c0552eb00989";
 const START_POSITION = 3; // include 0x
 const END_POSITION = 3;
 const MAX_ATTEMPTS = 1000000; // Set a limit to the number of attempts
-const GAS_VALUE = "0.0003"; // Set the amount of gas to send
-const SEND_VALUE = "0"; // Set the amount of gas to send
+const GAS_VALUE = "0.0004"; // Set the amount of gas to send
+const SEND_VALUE = "0.0001"; // Set the amount of gas to send
 
 const settings = {
   apiKey: ALCHEMY_API_KEY,
